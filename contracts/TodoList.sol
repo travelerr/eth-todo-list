@@ -10,6 +10,7 @@ contract TodoList {
     }
 
     event TaskCreated(uint id, string content, bool completed);
+    event TaskCompleted(uint id, bool completed);
 
     mapping(uint => Task) public tasks;
 
