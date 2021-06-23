@@ -1,4 +1,4 @@
-const { assert } = require("chai")
+const { assert, expect } = require("chai")
 
 const TodoList = artifacts.require('./TodoList.sol')
 
@@ -7,7 +7,7 @@ contract('TodoList', (accounts) => {
         this.todoList = await TodoList.deployed()
     })
 
-    it('deplyos successfully', async () => {
+    it('deploys successfully', async () => {
         const address = await this.todoList.address
         assert.notEqual(address, 0x0)
         assert.notEqual(address, '')
@@ -32,6 +32,12 @@ contract('TodoList', (accounts) => {
         assert.equal(event.id.toNumber(), 2)
         assert.equal(event.content, 'A new task for testing')
         assert.equal(event.completed, false)
+    })
+
+    it('toggles completed task', async () => {
+        const result = await this.todoList.toggleCompleted(1)
+        const event = result.logs[0].args
+        expect(event.completed).to.be.true
     })
 
 })
